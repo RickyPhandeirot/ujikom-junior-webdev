@@ -117,11 +117,13 @@
                 <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center"
                     data-aos="fade-up">
                     <h1>Selamat Datang Di Pencatatan Pegawai</h1>
-                    <div class="login-box">
+                    <div>
                         @if (Auth::check())
-                            <a class="btn-solid-lg page-scroll" href="{{ route('dashboard') }}">Dashboard</a>
+                            <a class="btn btn-success btn-lg"
+                                href="{{ route('dashboard') }}">Dashboard</a>
                         @else
-                            <a class="btn-solid-lg page-scroll" href="{{ route('login') }}">Login</a>
+                            <a class="btn btn-success btn-lg"
+                                href="{{ route('login') }}">Login</a>
                         @endif
                     </div>
                 </div>

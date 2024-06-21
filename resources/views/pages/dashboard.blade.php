@@ -10,8 +10,9 @@
                     <div class="row">
                         {{-- <div class="col-lg-10"> --}}
                             <div class="d-flex flex-column h-100">
-                                <h2 class="font-weight-bolder mb-0">SELAMAT DATANG DI PENCATATAN PEGAWAI</h2>
+                                <h1 class="font-weight-bolder mb-0">SELAMAT DATANG DI PENCATATAN PEGAWAI</h1>
                             </div>
+                            <h2 class="font-weight-bolder mb-0"><br>SILAHKAN KE MENU "PEGAWAI" UNTUK MELIHAT DAFTAR PEGAWAI</h2>
 
                         {{-- </div> --}}
                     </div>
