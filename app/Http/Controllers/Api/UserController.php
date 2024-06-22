@@ -8,9 +8,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $users = User::orderBy('name', 'asc')->get();
@@ -20,12 +18,10 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        // mmebuat validasi
+
         $validated = $request->validate([
             'name'      => [
                 'required',
@@ -49,7 +45,7 @@ class UserController extends Controller
                 'nullable',
             ],
         ]);
-        // membuat user baru
+
         $user = User::create($validated);
 
         return response()->json([
@@ -58,9 +54,6 @@ class UserController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $user = User::find($id);
@@ -71,9 +64,7 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
@@ -98,27 +89,8 @@ class UserController extends Controller
             'alamat'  => [
                 'nullable',
             ],
-            // 'password_confirmation' => [
-            //     'required',
-            //     'same:password'
-            // ],
-            // 'avatar'    => [
-            //     'nullable',
-            //     'image',
-            //     'mimes:jpg,jpeg,png',
-            //     'max:2048' // 2MB
-            // ]
         ]);
 
-        // unggah avatar
-        // if ($request->hasFile('avatar')) {
-        //     $avatar = $request->file('avatar');
-        //     $avatarPath = $avatar->store('avatars', 'public');
-
-        //     $validated['avatar'] = $avatarPath;
-        // }
-
-        // jika ada password baru, maka update password
         if ($request->filled('password')) {
             $validated['password'] = bcrypt($validated['password']);
         } else {
@@ -134,9 +106,6 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $user = User::find($id);

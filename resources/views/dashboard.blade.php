@@ -15,15 +15,10 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{ asset('/') }}css/nucleo-svg.css" rel="stylesheet" />
     <link id="pagestyle" href="{{ asset('/') }}css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
     @stack('css')
-
-<style>
-  .sidenav-toggler-line {
-    background-color: blue; /* Ubah warna sesuai keinginan Anda */
-}
-
-</style>
 
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 navbar-dark bg-gradient-dark shadow-none border-radius-xl " id="navbarBlur"
         data-scroll="false">

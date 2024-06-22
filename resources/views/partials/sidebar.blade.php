@@ -8,14 +8,9 @@
             <span class="ms-1 font-weight-bold">
 
                 <?php
-                // Ambil nama pengguna dari data autentikasi
                 $userName = auth()->user()->name;
-
-                // Ambil kata pertama dari nama pengguna
-                $firstName = strtok($userName, " ");
-
-                // Tampilkan pesan selamat datang dengan kata pertama nama pengguna
-                echo "Selamat Datang " . $firstName;
+                $firstName = strtok($userName, ' ');
+                echo 'Selamat Datang ' . $firstName;
                 ?>
 
             </span>
@@ -25,8 +20,9 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link @if(request()->url() == route('dashboard')) active @endif" href="{{ route('dashboard') }}">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <a class="nav-link @if (request()->url() == route('dashboard')) active @endif" href="{{ route('dashboard') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
@@ -34,10 +30,10 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link @if(request()->url() == route('pegawai.index')) active @endif" href="{{ route('pegawai.index') }}">
+                <a class="nav-link @if (request()->url() == route('pegawai.index')) active @endif" href="{{ route('pegawai.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                        <i class="fas fa-users fa-fw text-warning text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Pegawai</span>
                 </a>
@@ -47,10 +43,10 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
+                        <i class="fa-solid fa-arrow-right-from-bracket text-warning text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Sign Out</span>
                 </a>
