@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/') }}img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('/') }}img/favicon.png">
     <title>
-        Material Dashboard 2 by Creative Tim
+        Pencatatan Pegawai
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"

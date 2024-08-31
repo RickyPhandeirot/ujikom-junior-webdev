@@ -46,11 +46,13 @@
                     </td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-sm btn-warning" onclick="openEditModal('{{ $pegawai->id }}')">
+                            <button type="button" class="btn btn-sm btn-warning"
+                                onclick="openEditModal('{{ $pegawai->id }}')">
                                 <i class="fas fa-edit"></i>
                             </button>
 
-                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteUser('{{ $pegawai->id }}')">
+                            <button type="button" class="btn btn-sm btn-danger"
+                                onclick="deleteUser('{{ $pegawai->id }}')">
                                 <i class="fas fa-trash"></i>
                             </button>
 
@@ -68,7 +70,7 @@
                     <h5 class="modal-title" id="addModalLabel">Modal title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                {{-- <div class="modal-body">
 
                     <form>
 
@@ -103,7 +105,37 @@
                         <label for="avatar" class="form-label">Foto</label>
                         <input class="form-control" type="file" id="avatar" name="avatar">
                     </div> --}}
+                {{-- </div> --}}
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="mb-3">
+                            <label for="addName" class="form-label">Nama Pegawai</label>
+                            <input type="text" class="form-control" id="addName" name="name" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="addEmail" name="email" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addPhoneNumber" class="form-label">Nomor HP</label>
+                            <input type="text" class="form-control" id="addPhoneNumber" name="phone_number">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="addPassword" name="password" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addAlamat" class="form-label">Alamat</label>
+                            <textarea class="form-control" id="addAlamat" rows="3" name="alamat"></textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </form>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button onclick="createUser()" type="button" class="btn btn-primary">Tambah</button>
@@ -127,26 +159,35 @@
                         <div class="form-group">
                             <label for="editName">Nama</label>
                             <input required type="text" class="form-control" id="editName" name="name">
+                            <div class="invalid-feedback"></div>
+
                         </div>
 
                         <div class="form-group">
                             <label for="editEmail">Email</label>
                             <input required type="email" class="form-control" id="editEmail" name="email">
+                            <div class="invalid-feedback"></div>
+
                         </div>
 
                         <div class="form-group">
                             <label for="editPhoneNumber">Phone Number</label>
                             <input required type="text" class="form-control" id="editPhoneNumber"
-                            name="phone_number">
+                                name="phone_number">
+                            <div class="invalid-feedback"></div>
+
                         </div>
 
                         <div class="form-group">
                             <label for="editPassword">Password</label>
                             <input required type="password" class="form-control" id="editPassword" name="password">
+                            <div class="invalid-feedback"></div>
+
                         </div>
                         <div class="form-group">
                             <label for="editAlamat">Alamat</label>
                             <textarea class="form-control" id="editAlamat" rows="3" name="alamat"></textarea>
+                            <div class="invalid-feedback"></div>
                         </div>
 
                     </form>
@@ -169,11 +210,14 @@
         }
 
         #table-pegawai tbody td:nth-child(4) {
-            max-height: 4.5em; /* Sesuaikan dengan kira-kira 3 baris teks */
+            max-height: 4.5em;
+            /* Sesuaikan dengan kira-kira 3 baris teks */
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal; /* Tampilkan teks di lebih dari satu baris */
-            word-wrap: break-word; /* Pecah kata di dalam teks panjang */
+            white-space: normal;
+            /* Tampilkan teks di lebih dari satu baris */
+            word-wrap: break-word;
+            /* Pecah kata di dalam teks panjang */
         }
     </style>
 @endpush
@@ -186,6 +230,20 @@
 
 
     <script>
+        let userId = null;
+        $('#addModal').on('show.bs.modal', function(e) {
+            $('#addForm').trigger('reset'); // Reset form input values
+            $('#addForm input').removeClass('is-invalid'); // Remove 'is-invalid' class from inputs
+            $('#addForm .invalid-feedback').empty(); // Clear any existing error messages
+        });
+
+        $('#editModal').on('show.bs.modal', function(e) {
+            // Reset form input values
+            $('#editForm input').removeClass('is-invalid'); // Remove 'is-invalid' class from inputs
+            $('#editForm .invalid-feedback').empty(); // Clear any existing error messages
+        });
+
+
         function createUser() {
             const url = "{{ route('api.pegawai.store') }}";
 
@@ -200,49 +258,36 @@
 
             }
 
-            // kirim data ke server POST /users
             $.post(url, data)
                 .done((response) => {
-                    // tampilkan pesan sukses
-                    toastr.success(response.message, 'Sukses')
+                    // Display success message
+                    toastr.success('Pengguna berhasil ditambahkan', 'Sukses');
 
-                    // reload halaman setelah 3 detik
+                    // Reload page after 1 second
                     setTimeout(() => {
-                        location.reload()
+                        location.reload();
                     }, 1000);
                 })
                 .fail((error) => {
-                    // ambil response error
-                    let response = error.responseJSON
+                    // Get response error
+                    let response = error.responseJSON;
 
-                    // tampilkan pesan error
-                    toastr.error(response.message, 'Error')
+                    // Display error message
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
 
-                    // tampilkan error validation
+                    // Display validation errors
                     if (response.errors) {
-                        // loop object errors
-                        for (const error in response.errors) {
-                            // cari input name yang error pada #addForm
-                            let input = $(`#addForm input[name="${error}"]`)
-
-                            // tambahkan class is-invalid pada input
-                            input.addClass('is-invalid');
-
-                            // buat elemen class="invalid-feedback"
-                            let feedbackElement = `<div class="invalid-feedback">`
-                            feedbackElement += `<ul class="list-unstyled">`
-                            response.errors[error].forEach((message) => {
-                                feedbackElement += `<li>${message}</li>`
-                            })
-                            feedbackElement += `</ul>`
-                            feedbackElement += `</div>`
-
-                            // tambahkan class invalid-feedback setelah input
-                            input.after(feedbackElement)
-                        }
+                        displayValidationErrors(response.errors, '#addForm');
                     }
-                })
+                });
         }
+
+
 
         function editUser() {
             let url = "{{ route('api.pegawai.update', ':userId') }}";
@@ -258,55 +303,63 @@
                 _method: 'PUT'
             }
 
-            // kirim data ke server POST /users
             $.post(url, data)
                 .done((response) => {
-                    // tampilkan pesan sukses
-                    toastr.success(response.message, 'Sukses')
+                    // Display success message
+                    toastr.success('Pengguna berhasil diperbarui', 'Sukses');
 
-                    // reload halaman setelah 3 detik
+                    // Reload page after 1 second
                     setTimeout(() => {
-                        location.reload()
+                        location.reload();
                     }, 1000);
                 })
                 .fail((error) => {
-                    // ambil response error
-                    let response = error.responseJSON
+                    // Get response error
+                    let response = error.responseJSON;
 
-                    // tampilkan pesan error
-                    toastr.error(response.message, 'Error')
+                    // Display error message
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
 
-                    // tampilkan error validation
+                    // Display validation errors
                     if (response.errors) {
-                        // loop object errors
-                        for (const error in response.errors) {
-                            // cari input name yang error pada #editForm
-                            let input = $(`#editForm input[name="${error}"]`)
-
-                            // tambahkan class is-invalid pada input
-                            input.addClass('is-invalid');
-
-                            // buat elemen class="invalid-feedback"
-                            let feedbackElement = `<div class="invalid-feedback">`
-                            feedbackElement += `<ul class="list-unstyled">`
-                            response.errors[error].forEach((message) => {
-                                feedbackElement += `<li>${message}</li>`
-                            })
-                            feedbackElement += `</ul>`
-                            feedbackElement += `</div>`
-
-                            // tambahkan class invalid-feedback setelah input
-                            input.after(feedbackElement)
-                        }
+                        displayValidationErrors(response.errors, '#editForm');
                     }
-                })
+                });
 
+        }
+
+        function displayValidationErrors(errors, formId) {
+            // Loop through each error
+            for (const error in errors) {
+                // Find the input field with the error
+                let input = $(`${formId} input[name="${error}"]`);
+
+                // Add 'is-invalid' class to input field
+                input.addClass('is-invalid');
+
+                // Create error feedback element
+                let feedbackElement = `<div class="invalid-feedback">`;
+                feedbackElement += `<ul class="list-unstyled">`;
+                errors[error].forEach((message) => {
+                    feedbackElement += `<li>${message}</li>`;
+                });
+                feedbackElement += `</ul>`;
+                feedbackElement += `</div>`;
+
+                // Append the error feedback after the input field
+                input.after(feedbackElement);
+            }
         }
 
         function deleteUser(userId) {
             Swal.fire({
                 title: 'Apakah kamu yakin?',
-                text: 'User akan dihapus, kamu tidak bisa mengembalikannya lagi!',
+                text: 'Pengguna akan dihapus, kamu tidak bisa mengembalikannya lagi!',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, hapus!',
@@ -321,57 +374,53 @@
                             _method: 'DELETE'
                         })
                         .done((response) => {
-                            toastr.success(response.message, 'Sukses')
+                            toastr.success('Pengguna berhasil dihapus', 'Sukses');
 
                             setTimeout(() => {
-                                location.reload()
+                                location.reload();
                             }, 1000);
                         })
                         .fail((error) => {
-                            toastr.error('Gagal menghapus user', 'Error')
-                        })
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Gagal menghapus pengguna',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        });
                 }
-            })
-
-
+            });
         }
 
         function openEditModal(id) {
-            // mengisi variabel userId dengan id yang dikirim dari tombol edit
             userId = id;
 
-            // ambil data user dari server
             let url = `{{ route('api.pegawai.show', ':userId') }}`;
             url = url.replace(':userId', userId);
 
-            // ambil data user
             $.get(url)
                 .done((response) => {
-                    // isi form editModal dengan data user
                     $('#editName').val(response.data.name);
                     $('#editEmail').val(response.data.email);
                     $('#editPhoneNumber').val(response.data.phone_number);
-                    $('#editRole').val(response.data.role);
+                    $('#editAlamat').val(response.data.alamat);
 
-                    // tampilkan modal editModal
                     $('#editModal').modal('show');
                 })
                 .fail((error) => {
-                    // tampilkan pesan error
-                    toastr.error('Gagal mengambil data user', 'Error')
-                })
-
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal mengambil data pengguna',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
         }
-
-
-
-
 
 
         $(document).ready(function() {
             $('#table-pegawai').DataTable();
             scrollX: true
         });
-
     </script>
 @endpush
